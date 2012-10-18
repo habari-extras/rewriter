@@ -15,7 +15,7 @@ class Rewriter extends Plugin
 		return $rules;
 	}
 
-	function add_rule( $name, $params ) {
+	private function add_rewrite_rule( $name, $params ) {
 		$rule = RewriteRules::by_name( $name );
 		if(count($rule) == 1) {
 			$rule = $rule[0];
@@ -53,7 +53,7 @@ class Rewriter extends Plugin
 					'description' => $handler_vars['descriptions'][$key]
 				);
 
-				self::add_rule( $key, $changes);
+				self::add_rewrite_rule( $key, $changes);
 
 			}
 
@@ -88,32 +88,29 @@ class Rewriter extends Plugin
 		return $rules;
 	}
 
-
-/**
- * add ACL tokens when this plugin is activated
- **/
-public function action_plugin_activation( $file )
-{
-	if ( Plugins::id_from_file($file) == Plugins::id_from_file(__FILE__) ) {
+	/**
+	 * add ACL tokens when this plugin is activated
+	 **/
+	public function action_plugin_activation( $file )
+	{
 		ACL::create_token( 'Rewriter', 'Create custom rewrite rules', 'rewriter' );
 	}
-}
 
-/**
+	/**
 	* remove ACL tokens when this plugin is deactivated
-**/
-function action_plugin_deactivation( $plugin_file )
-{
-		if( Plugins::id_from_file( __FILE__ ) == Plugins::id_from_file( $plugin_file  ) ) {
-				ACL::destroy_token( 'Rewriter' );
-		}
-}
+	**/
+	function action_plugin_deactivation( $plugin_file )
+	{
+		ACL::destroy_token( 'Rewriter' );
+	}
 
 	public function filter_admin_access_tokens( $require_any, $page, $type )
 	{
 		if ( 'rules' == $page ) {
 			$require_any = array( 'super_user' => true, 'rewriter' => true );
-		} return $require_any;
+		}
+
+		return $require_any;
 	}
 }
 

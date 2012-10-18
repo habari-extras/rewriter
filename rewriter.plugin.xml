@@ -5,9 +5,10 @@
 
 	<author url="http://habariproject.org/">The Habari Community</author>
 
-	<version>0.2</version>
+	<version>0.3</version>
 	<url>http://habariproject.org/</url>
 	<description><![CDATA[Allows you to change rewrite rules for custom permalinks.]]></description>
+	<guid>ebeffb4c-9012-4b9c-b9c0-13ca275fba86</guid>
 	<copyright>2010</copyright>
 </pluggable>
 
